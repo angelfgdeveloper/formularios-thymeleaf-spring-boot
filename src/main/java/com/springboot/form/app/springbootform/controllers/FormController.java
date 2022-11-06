@@ -5,6 +5,7 @@ package com.springboot.form.app.springbootform.controllers;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,11 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.springboot.form.app.springbootform.Validation.UsuarioValidador;
 import com.springboot.form.app.springbootform.models.domain.Usuario;
 
 @Controller
 @SessionAttributes("user") // nombre del objeto que queremos que persista
 public class FormController {
+
+  @Autowired
+  private UsuarioValidador validador;
 
   @GetMapping("/form")
   public String form(Model model) {
@@ -44,6 +49,7 @@ public class FormController {
     Model model,
     SessionStatus status
   ) {
+    validador.validate(usuario, result); // Para añadir nuestros validadores personalizados
     model.addAttribute("titulo", "Resultado del formulario");
 
     if (result.hasErrors()) { 

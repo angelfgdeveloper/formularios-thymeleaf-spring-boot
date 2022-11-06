@@ -2,13 +2,19 @@ package com.springboot.form.app.springbootform.models.domain;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Usuario {
 
+  // @Pattern(regexp = "[0-9]{2}[.][\\d]{3}[.][\\d]{3}[-][a-zA-Z]")
+  // [0-9] es igual a [\\d]
+  // [.] o [,] 0 [.,]
+  //@Pattern(regexp = "[0-9]{2}[.,][\\d]{3}[.,][\\d]{3}[-][A-Z]{1}") // Ejemplo: 123.456.789-K
+  //@Pattern(regexp = "[0-9]{2}[.][\\d]{3}[.][\\d]{3}[-][A-Z]{1}") // Ejemplo: 123.456.789-K
   private String identificador;
 
-  @NotEmpty(message = "El nombre no puede ser vacio") // Mensaje de error
+  //@NotEmpty(message = "El nombre no puede ser vacio") // Mensaje de error
   private String nombre;
 
   @NotEmpty
