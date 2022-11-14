@@ -57,6 +57,14 @@
     </div>
 
     <div>
+      <label for="cuenta">Cuenta</label>
+      <div>
+        <input type="number" id="cuenta" th:field="*{cuenta}">
+      </div>
+      <div th:if="${#fields.hasErrors('cuenta')}" th:errors="*{cuenta}"></div>
+    </div>
+
+    <div>
       <label for="email">Email</label>
       <div>
         <!-- <input type="email" name="email" id="email" th:value="${user.email}"> -->
@@ -74,6 +82,14 @@
       </div>
       <!-- <div th:if="${error != null && error.containsKey('password')}" th:text="${error.get('password')}"></div> -->
       <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
+
+    <div>
+      <label for="fechaNacimiento">Fecha</label>
+      <div>
+        <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" placeholder="dd/MM/yyyy">
+      </div>
+      <div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
     </div>
 
     <div>
