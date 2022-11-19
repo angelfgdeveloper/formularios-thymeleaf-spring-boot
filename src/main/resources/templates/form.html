@@ -15,10 +15,51 @@
   <form th:action="@{/form}" th:object="${user}" method="post">
 
     <div>
+      <label for="habilitar">Habilitar</label>
+      <div>
+        <input type="checkbox" id="habilitar" th:field="*{habilitar}">
+      </div>
+    </div>
+
+    <div>
+      <label for="pais">País</label>
+      <div>
+        <select id="pais" th:field="*{pais}">
+          <option value="">--Seleccionar--</option>
+          <!-- <option th:each="pais: ${paises}" th:text="${pais}" th:value="${pais}"></option> -->
+          <!-- <option th:each="pais: ${paisesMap.entrySet()}" th:text="${pais.value}" th:value="${pais.key}"></option> -->
+          <option th:each="pais: ${listaPaises}" th:text="${pais.nombre}" th:value="${pais.id}"></option>
+        </select>
+      </div>
+      <div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
+    </div>
+
+    <!-- <div> -->
+      <!-- <label>Roles</label> -->
+      <!-- <div th:each="role: ${listaRolesString}"> -->
+      <!-- <div th:each="role: ${listaRolesMap.entrySet()}"> -->
+        <!-- <input style="cursor: pointer;" type="checkbox" th:field="*{roles}" th:value="${role}"> -->
+        <!-- <input style="cursor: pointer;" type="checkbox" th:field="*{roles}" th:value="${role.key}"> -->
+        <!-- Para seleccionar el role con el label -->
+        <!-- <label style="cursor: pointer;" th:for="${#ids.prev('roles')}" th:text="${role}"></label> -->
+        <!-- <label style="cursor: pointer;" th:for="${#ids.prev('roles')}" th:text="${role.value}"></label> -->
+      <!-- </div> -->
+      <!-- <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div> -->
+    <!-- </div> -->
+
+    <div>
+      <label>Roles</label>
+      <div th:each="role: ${listaRoles}">
+        <input style="cursor: pointer;" type="checkbox" th:field="*{roles}" th:value="${role.id}">
+        <label style="cursor: pointer;" th:for="${#ids.prev('roles')}" th:text="${role.nombre}"></label>
+      </div>
+      <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
+    </div>
+
+    <div>
       <label for="identificador">Identificador</label>
       <div>
         <input type="text" id="identificador" th:field="*{identificador}">
-      </div>
       </div>
       <div th:if="${#fields.hasErrors('identificador')}" th:errors="*{identificador}"></div>
     </div>
@@ -28,7 +69,6 @@
       <div>
         <!-- <input type="text" name="nombre" id="nombre" th:value="${user.nombre}"> -->
         <input type="text" id="nombre" th:field="*{nombre}">
-      </div>
       </div>
       <!-- <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.get('nombre')}"></div> -->
       <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
@@ -40,7 +80,6 @@
         <!-- <input type="text" name="apellido" id="apellido" th:value="${user.apellido}"> -->
         <input type="text" id="apellido" th:field="*{apellido}">
       </div>
-      </div>
       <!-- <div th:if="${error != null && error.containsKey('apellido')}" th:text="${error.get('apellido')}"></div> -->
       <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
     </div>
@@ -50,7 +89,6 @@
       <div>
         <!-- <input type="text" name="username" id="username" th:value="${user.username}"> -->
         <input type="text" id="username" th:field="*{username}">
-      </div>
       </div>
       <!-- <div th:if="${error != null && error.containsKey('username')}" th:text="${error.get('username')}"></div> -->
       <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>

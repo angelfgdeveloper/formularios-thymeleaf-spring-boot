@@ -2,6 +2,11 @@ package com.springboot.form.app.springbootform.controllers;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // import java.util.HashMap;
 // import java.util.Map;
@@ -24,7 +29,13 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.springboot.form.app.springbootform.Validation.UsuarioValidador;
 import com.springboot.form.app.springbootform.editors.NombreMayusculaEditor;
+import com.springboot.form.app.springbootform.editors.PaisPropertyEditor;
+import com.springboot.form.app.springbootform.editors.RolesEditor;
+import com.springboot.form.app.springbootform.models.domain.Pais;
+import com.springboot.form.app.springbootform.models.domain.Role;
 import com.springboot.form.app.springbootform.models.domain.Usuario;
+import com.springboot.form.app.springbootform.services.IPaisService;
+import com.springboot.form.app.springbootform.services.IRoleService;
 
 @Controller
 @SessionAttributes("user") // nombre del objeto que queremos que persista
@@ -32,6 +43,18 @@ public class FormController {
 
   @Autowired
   private UsuarioValidador validador;
+
+  @Autowired
+  private IPaisService paisService;
+
+  @Autowired
+  private IRoleService roleService;
+
+  @Autowired
+  private PaisPropertyEditor paisEditor;
+
+  @Autowired
+  private RolesEditor rolesEditor;
 
   @InitBinder // Registra los validadores
   public void initBinder(WebDataBinder binder) {
@@ -49,6 +72,70 @@ public class FormController {
 
     // Modificar nombre a mayusculas
     binder.registerCustomEditor(String.class, "nombre", new NombreMayusculaEditor());
+
+    // Pais
+    binder.registerCustomEditor(Pais.class, "pais", paisEditor);
+
+    // Roles
+    binder.registerCustomEditor(Role.class, "roles", rolesEditor);
+  }
+
+  @ModelAttribute("listaPaises")
+  public List<Pais> listaPaises() {
+    // return Arrays.asList(
+    //   new Pais(1, "ES", "España"),
+    //   new Pais(2, "MX", "México"),
+    //   new Pais(3, "CL", "Chile"),
+    //   new Pais(4, "AR", "Argentina"),
+    //   new Pais(5, "PR", "Perú"),
+    //   new Pais(6, "CO", "Colombia"),
+    //   new Pais(7, "VE", "Venezuela")
+    //   );
+
+    return paisService.listar();
+  }
+
+  @ModelAttribute("paises")
+  public List<String> paises() {
+    return Arrays.asList("España", "México", "Chile", "Argentina", "Perú", "Colombia", "Venezuela");
+  }
+
+  @ModelAttribute("paisesMap")
+  public Map<String, String> paisesMap() {
+    Map<String, String> paises = new HashMap<String, String>();
+    paises.put("ES", "España");
+    paises.put("MX", "México");
+    paises.put("CL", "Chile");
+    paises.put("AR", "Argentina");
+    paises.put("PR", "Perú");
+    paises.put("CO", "Colombia");
+    paises.put("VE", "Venezuela");
+    return paises;
+  }
+
+  // Checkboxes
+  @ModelAttribute("listaRolesString")
+  public List<String> listaRolesString() {
+    List<String> roles = new ArrayList<>();
+    roles.add("ROLE_ADMIN");
+    roles.add("ROLE_USER");
+    roles.add("ROLE_MODERATOR");
+
+    return roles;
+  }
+
+  @ModelAttribute("listaRolesMap")
+  public Map<String, String> listaRolesMap() {
+    Map<String, String> roles = new HashMap<String, String>();
+    roles.put("ROLE_ADMIN", "Administrador");
+    roles.put("ROLE_USER", "Usuario");
+    roles.put("ROLE_MODERATOR", "Moderador");
+    return roles;
+  }
+
+  @ModelAttribute("listaRoles")
+  public List<Role> listaRoles() {
+    return this.roleService.listar();
   }
 
   @GetMapping("/form")
@@ -59,6 +146,7 @@ public class FormController {
     usuario.setNombre("Luis");
     usuario.setApellido("FG");
     usuario.setIdentificador("123.456.789-K"); // Se pierde al pasar a la vista
+    usuario.setHabilitar(true);
 
     model.addAttribute("titulo", "Formulario de usuario");
     model.addAttribute("user", usuario); // Evitamos el error en el value del input

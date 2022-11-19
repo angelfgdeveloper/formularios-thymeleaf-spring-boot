@@ -20,6 +20,16 @@
     <li th:text="${usuario.email}"></li>
     <li th:text="${usuario.password}"></li>
     <li th:text="${usuario.identificador}"></li>
+    <li th:text="${usuario.pais.id}"></li>
+    <li th:text="${usuario.pais.codigo}"></li>
+    <li th:text="${usuario.pais.nombre}"></li>
+    <li th:text="${#dates.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></li>
+    <li th:text="'Habilitado: ' + ${usuario.habilitar}"></li>
+  </ul>
+
+  <h2>Roles</h2>
+  <ul>
+    <li th:each="role: ${usuario.roles}" th:text="${role.id} + ': ' + ${role.nombre} + ' => ' + ${role.nombre}"></li>
   </ul>
 
 </body>

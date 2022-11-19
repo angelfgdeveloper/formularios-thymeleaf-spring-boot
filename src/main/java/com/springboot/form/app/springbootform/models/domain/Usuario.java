@@ -1,7 +1,9 @@
 package com.springboot.form.app.springbootform.models.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 // import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
@@ -52,11 +54,22 @@ public class Usuario {
   @NotEmpty
   private String password;
 
-  @NotNull
+  @NotNull // Para objetos
   @Past // Fecha pasada a la actual
   // @Future // Fecha futura
   // @DateTimeFormat(pattern = "dd/MM/yyyy")
   private Date fechaNacimiento;
+
+  //@NotEmpty // strings
+  // @Valid
+  @NotNull
+  private Pais pais;
+
+  // private List<String> roles;
+  @NotEmpty
+  private List<Role> roles;
+
+  private Boolean habilitar;
 
   public Usuario() {
   }
@@ -123,6 +136,30 @@ public class Usuario {
 
   public void setFechaNacimiento(Date fechaNacimiento) {
     this.fechaNacimiento = fechaNacimiento;
+  }
+
+  public Pais getPais() {
+    return pais;
+  }
+
+  public void setPais(Pais pais) {
+    this.pais = pais;
+  }
+
+  public List<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
+  }
+
+  public Boolean getHabilitar() {
+    return habilitar;
+  }
+
+  public void setHabilitar(Boolean habilitar) {
+    this.habilitar = habilitar;
   }
 
 }
