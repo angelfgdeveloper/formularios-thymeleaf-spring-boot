@@ -10,31 +10,35 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="container">
+
+  <a th:href="@{/form}" class="btn btn-success my-3">Regresar</a>
 
   <h1 th:text="${titulo}"></h1>
 
-  <ul>
-    <li th:text="${user.nombre}"></li>
-    <li th:text="${user.apellido}"></li>
-    <li th:text="${user.username}"></li>
-    <li th:text="${user.cuenta}"></li>
-    <li th:text="${user.email}"></li>
-    <li th:text="${user.password}"></li>
-    <li th:text="${user.identificador}"></li>
-    <li th:text="${user.pais.id}"></li>
-    <li th:text="${user.pais.codigo}"></li>
-    <li th:text="${user.pais.nombre}"></li>
-    <li th:text="${#dates.format(user.fechaNacimiento, 'dd/MM/yyyy')}"></li>
-    <li th:text="'Habilitado: ' + ${user.habilitar}"></li>
-    <li th:text="'Género: ' + ${user.genero}"></li>
-    <li th:text="'Valor oculto: ' + ${user.valorSecreto}"></li>
+  <ul class="list-group mb-3">
+    <li class="list-group-item active" th:text="${titulo}"></li>
+    <li class="list-group-item" th:text="${user.nombre}"></li>
+    <li class="list-group-item" th:text="${user.apellido}"></li>
+    <li class="list-group-item" th:text="${user.username}"></li>
+    <li class="list-group-item" th:text="${user.cuenta}"></li>
+    <li class="list-group-item" th:text="${user.email}"></li>
+    <li class="list-group-item" th:text="${user.password}"></li>
+    <li class="list-group-item" th:text="${user.identificador}"></li>
+    <li class="list-group-item" th:text="${user.pais.id}"></li>
+    <li class="list-group-item" th:text="${user.pais.codigo}"></li>
+    <li class="list-group-item" th:text="${user.pais.nombre}"></li>
+    <li class="list-group-item" th:text="${#dates.format(user.fechaNacimiento, 'dd/MM/yyyy')}"></li>
+    <li class="list-group-item" th:text="'Habilitado: ' + ${user.habilitar}"></li>
+    <li class="list-group-item" th:text="'Género: ' + ${user.genero}"></li>
+    <li class="list-group-item" th:text="'Valor oculto: ' + ${user.valorSecreto}"></li>
 
   </ul>
 
   <h2>Roles</h2>
-  <ul>
-    <li th:each="role: ${user.roles}" th:text="${role.id} + ': ' + ${role.nombre} + ' => ' + ${role.nombre}"></li>
+  <ul class="list-group mb-3">
+    <li class="list-group-item active" th:text="${'Roles'}"></li>
+    <li class="list-group-item" th:each="role: ${user.roles}" th:text="${role.id} + ': ' + ${role.nombre} + ' => ' + ${role.nombre}"></li>
   </ul>
 
 </body>
