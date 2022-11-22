@@ -46,4 +46,10 @@ public class Pais {
     this.nombre = nombre;
   }
 
+  @Override
+  public String toString() {
+    //return "Pais [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + "]";
+    return this.id.toString(); // Para que pueda seleccionar por default
+  }
+
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -138,6 +139,12 @@ public class FormController {
     return this.roleService.listar();
   }
 
+  // Genero
+  @ModelAttribute("genero")
+  public List<String> genero() {
+    return Arrays.asList("Hombre", "Mujer");
+  }
+
   @GetMapping("/form")
   public String form(Model model) {
     Usuario usuario = new Usuario();
@@ -147,6 +154,13 @@ public class FormController {
     usuario.setApellido("FG");
     usuario.setIdentificador("123.456.789-K"); // Se pierde al pasar a la vista
     usuario.setHabilitar(true);
+    usuario.setValorSecreto("Algún valor secreto ****");
+
+    usuario.setPais(new Pais(2, "MX", "México")); // Por default
+    usuario.setRoles(Arrays.asList(
+      new Role(2, "Usuario", "ROLE_USER")
+      // new Role(3, "Moderador", "ROLE_MODERATOR")
+    ));
 
     model.addAttribute("titulo", "Formulario de usuario");
     model.addAttribute("user", usuario); // Evitamos el error en el value del input
@@ -159,13 +173,13 @@ public class FormController {
   public String procesar(
     @Valid @ModelAttribute("user") Usuario usuario, // @ModelAttribute("user") cambiar el nombre de forma automatica
     BindingResult result, 
-    Model model,
-    SessionStatus status
+    Model model
+    // SessionStatus status
   ) {
-    validador.validate(usuario, result); // Para añadir nuestros validadores personalizados
-    model.addAttribute("titulo", "Resultado del formulario");
-
+    //validador.validate(usuario, result); // Para añadir nuestros validadores personalizados
+    
     if (result.hasErrors()) { 
+      model.addAttribute("titulo", "Resultado del formulario");
       // #1 errores manuales
       // Valida si tiene errores
       // Map<String, String> errores = new HashMap<>(); // Forma manual de obtener errores
@@ -179,9 +193,26 @@ public class FormController {
     }
 
     // Objeto completo
-    model.addAttribute("usuario", usuario);
-    status.setComplete(); // completar el proceso y elimina el objeto de la sesion 
+    // model.addAttribute("usuario", usuario);
+    //status.setComplete(); // completar el proceso y elimina el objeto de la sesion 
 
+    return "redirect:/ver";
+  }
+
+  @GetMapping("/ver")
+  public String ver(
+    @SessionAttribute(name = "user", required = false) Usuario usuario,
+    Model model,
+    SessionStatus status
+  ) {
+
+    if (usuario == null) {
+      return "redirect:/form";
+    }
+
+    model.addAttribute("titulo", "Resultado del formulario");
+
+    status.setComplete(); // completar el proceso y elimina el objeto de la sesion 
     return "resultado";
   }
 

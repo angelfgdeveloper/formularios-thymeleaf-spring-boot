@@ -38,4 +38,18 @@ public class Role {
     this.role = role;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) { // Comparamos si es la misma instancia
+      return true;
+    }
+
+    if (!(obj instanceof Role)) { // Sino es una instancia de Role
+      return false;
+    }
+
+    Role role = (Role)obj;
+    return this.id != null && this.id.equals(role.getId()); //Compara el id del objeto de la instancia
+  }
+
 }
